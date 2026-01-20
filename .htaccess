@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Botiga online"
+AuthBasicProvider file
+AuthUserFile /home/TDIW/tdiw-a7/public_html/.htpasswd
+Require valid-user
