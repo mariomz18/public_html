@@ -296,3 +296,27 @@ footer {
         width: 100%;
     }
 }
+
+#login-background {
+    /* Ruta a tu imagen (sube un nivel desde css/ y entra en img/img/) */
+    background-image: url('../img/img/fondo_basket.jpg'); 
+    background-size: cover;        /* La imagen cubre todo el espacio */
+    background-position: center;   /* Centrada */
+    background-repeat: no-repeat;
+    
+    /* Para que ocupe el resto de la pantalla debajo del header */
+    min-height: 80vh; 
+    
+    /* Centrar el formulario vertical y horizontalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+#login-background .form-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Blanco semi-transparente */
+    box-shadow: 0 10px 25px rgba(0,0,0, 0.5); /* Sombra fuerte para dar profundidad */
+    width: 100%;
+    max-width: 400px; /* Un poco más estrecho para que quede elegante */
+    border-radius: 10px;
+}

@@ -29,7 +29,7 @@ function registerUser(array $userData): bool
         $userData['zip_code'] ?? null
     ];
     
-    $result = pg_query_params($conn, $sql, $params);
+    $result = @pg_query_params($conn, $sql, $params);
 
     if (!$result) {
         // error email ya existe

@@ -6,16 +6,16 @@ $message = null; // mensaje de exito/error
 
 // si la petición es POST, procesamos el formulario 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userData = [
-        'name' => $_POST['nombre'] ?? '',
-        'email' => $_POST['email'] ?? '',
-        'password' => $_POST['password'] ?? '',
-        'address' => $_POST['direccion'] ?? '',
-        'city' => $_POST['poblacion'] ?? '',
-        'zip_code' => $_POST['cp'] ?? ''
-    ];
+    
+    // extraemos las variables del POST y las limpiamos
+    $name     = trim($_POST['nombre'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $address  = trim($_POST['direccion'] ?? '');
+    $city     = trim($_POST['poblacion'] ?? '');
+    $zip_code = trim($_POST['cp'] ?? '');
 
-    // validación de campos obligatorios
+    // validamos usando esas variables que acabamos de crear
     if (empty($name)) {
         $message = ['type' => 'error', 'text' => 'El nombre es obligatorio.'];
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!empty($zip_code) && !preg_match('/^\d{5}$/', $zip_code)) {
         $message = ['type' => 'error', 'text' => 'El código postal debe tener 5 dígitos.'];
     } else {
-        // si todo es correcto, preparamos el array
         $userData = [
             'name' => $name,
             'email' => $email,
@@ -34,11 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'city' => $city,
             'zip_code' => $zip_code
         ];
-        // llamar a model para registrar con cifrado y por parametros
+
+        // llamar a model para registrar
         if (registerUser($userData)) {
-            $message = ['type' => 'success', 'text' => 'Registro completado con éxito. Ya puedes iniciar sesión.'];
+            header("Location: index.php?accio=login");
+            exit();
         } else {
-            // Error email ya en uso
             $message = ['type' => 'error', 'text' => 'Error al registrar el usuario. El email podría ya estar en uso.'];
         }
     }
