@@ -28,7 +28,7 @@ $categoryImages = [
                          style="object-fit: contain; background: #fff;">
                     
                     <div class="category-card-content">
-                        <h3><?= htmlspecialchars($category['name']) ?></h3>
+                        <h3><?= htmlentities($category['name'], ENT_QUOTES | ENT_HTML5, 'UTF-8') ?></h3>
                     </div>
                 </a>
             <?php endforeach; ?>

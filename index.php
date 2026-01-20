@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $accio = $_GET['accio'] ?? null;
 // switch per enrutar les peticions
@@ -12,8 +13,14 @@ switch ($accio) {
         break;
 
     case 'login':
-        require __DIR__ . '/resource_portada.php'; 
+        require __DIR__ . '/controller/login.php'; 
         break;
+
+    case 'logout':
+        session_destroy(); // borrar sesión
+        header("Location: index.php");
+        exit;
+        break; 
 
     case 'api_llistar_productes':
         // el controller s'encarrega d'obtenir les dades i retornar JSON

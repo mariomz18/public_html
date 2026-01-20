@@ -15,10 +15,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'zip_code' => $_POST['cp'] ?? ''
     ];
 
-    // validación de los campos obligatorios
-    if (empty($userData['name']) || empty($userData['email']) || empty($userData['password'])) {
-        $message = ['type' => 'error', 'text' => 'Error: Faltan campos obligatorios.'];
+    // validación de campos obligatorios
+    if (empty($name)) {
+        $message = ['type' => 'error', 'text' => 'El nombre es obligatorio.'];
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = ['type' => 'error', 'text' => 'El formato del email no es válido.'];
+    } elseif (strlen($password) < 6) {
+        $message = ['type' => 'error', 'text' => 'La contraseña debe tener al menos 6 caracteres.'];
+    } elseif (!empty($zip_code) && !preg_match('/^\d{5}$/', $zip_code)) {
+        $message = ['type' => 'error', 'text' => 'El código postal debe tener 5 dígitos.'];
     } else {
+        // si todo es correcto, preparamos el array
+        $userData = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'address' => $address,
+            'city' => $city,
+            'zip_code' => $zip_code
+        ];
         // llamar a model para registrar con cifrado y por parametros
         if (registerUser($userData)) {
             $message = ['type' => 'success', 'text' => 'Registro completado con éxito. Ya puedes iniciar sesión.'];

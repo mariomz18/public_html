@@ -153,13 +153,18 @@
                 <li><a href="index.php?accio=registro">Registrarse</a></li>
                 
                 <li id="user-menu-container">
-                    <a href="#" id="user-menu-link">Mi Cuenta</a>
-                    
-                    <div id="user-menu-dropdown">
-                        <a href="index.php?accio=cuenta">Mi Cuenta</a>
-                        <a href="index.php?accio=pedidos">Mis Compras</a>
-                        <a href="index.php?accio=logout">Cerrar Sesión</a>
-                    </div>
+                    <?php if (isset($_SESSION['user_name'])): ?>
+                        <a href="#" id="user-menu-link">Hola, <?= htmlspecialchars($_SESSION['user_name']) ?></a>
+        
+                        <div id="user-menu-dropdown">
+                            <a href="index.php?accio=cuenta">Mi Cuenta</a>
+                            <a href="index.php?accio=pedidos">Mis Compras</a>
+                            <a href="index.php?accio=logout">Cerrar Sesión</a>
+                        </div>
+
+                    <?php else: ?>
+                        <a href="index.php?accio=login">Iniciar Sesión</a>
+                    <?php endif; ?>
                 </li>
                 </ul>
         </nav>

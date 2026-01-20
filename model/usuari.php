@@ -42,4 +42,22 @@ function registerUser(array $userData): bool
     pg_close($conn);
     return true; // registro con exito
 }
+
+function validateUser($email, $password) {
+    $conn = connectaBD();
+    // buscamos el usuario por correo
+    $sql = 'SELECT id, name, password FROM "user" WHERE email = $1';
+    $result = pg_query_params($conn, $sql, [$email]);
+
+    if ($result && pg_num_rows($result) > 0) {
+        $user = pg_fetch_assoc($result);
+        // verificamos el hash de la contraseña 
+        if (password_verify($password, $user['password'])) {
+            pg_close($conn);
+            return $user; // retur de los datos del usuario
+        }
+    }
+    pg_close($conn);
+    return false;
+}
 ?>
