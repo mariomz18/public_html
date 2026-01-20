@@ -23,5 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Si falla o no es POST, cargamos la vista de Login
+require_once __DIR__ . '/../resources/layout_header.php';
 require_once __DIR__ . '/../views/login.php'; 
+require_once __DIR__ . '/../resources/layout_footer.php';
 ?>

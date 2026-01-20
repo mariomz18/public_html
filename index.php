@@ -32,6 +32,24 @@ switch ($accio) {
         require __DIR__ . '/controller/detall_producte.php';
         break;
 
+    case 'api_llistar_productes':
+        require __DIR__ . '/controller/API_llistar_productes.php';
+        break;
+
+    case 'api_detall_producte':
+        require __DIR__ . '/controller/detall_producte.php';
+        break;
+
+    case 'api_carrito':
+        // Procesa añadir productos (AJAX)
+        require __DIR__ . '/controller/API_carrito.php';
+        break;
+
+    case 'carrito':
+        // Muestra la vista del carrito
+        require __DIR__ . '/resource_carrito.php';
+        break;
+
     default:
         // carga el recurso de la página principal/portada si no se especifica ninguna acción
         require __DIR__ . '/resource_portada.php';

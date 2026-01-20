@@ -88,7 +88,6 @@ function renderProductDetail(product) {
         return `<p style="color: red; text-align: center;">Error: ${product.error}</p>`;
     }
 
-    // Usamos product.category_id (que añadimos al modelo) para volver a la lista correcta
     const backButton = `<button onclick="loadProductsByCategory(${product.category_id})" class="btn-primary" style="background-color: #555;">&larr; Volver al Listado</button>`;
     
     let imagePath = product.image ? product.image : 'https://placehold.co/600x600?text=Sin+Imagen';
@@ -102,11 +101,12 @@ function renderProductDetail(product) {
                 <p>${product.description}</p>
                 <div class="price">${product.price} €</div>
                 
-                <form class="add-to-cart-form" onsubmit="event.preventDefault(); alert('Añadido al carrito');">
-                    <label for="quantity">Quantitat:</label>
+                <form class="add-to-cart-form" onsubmit="event.preventDefault(); addToCart(${product.id});">
+                    <label for="quantity">Cantidad:</label>
                     <input type="number" id="quantity" value="1" min="1" max="99" required>
                     <button type="submit" class="btn-primary">Añadir al carrito</button>
                 </form>
+                
                 <br>
                 ${backButton}
             </div>
@@ -152,3 +152,33 @@ function showCategoryList() {
     $('#category-list-container').fadeIn();
 }
 
+
+function addToCart(productId) {
+    const qtyInput = document.getElementById('quantity');
+    const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+
+    fetch('index.php?accio=api_carrito&action=add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: productId, quantity: quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message); // Mensaje de éxito
+            updateHeaderCart(data.total_qty, data.total_price); // Actualizar Header
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function updateHeaderCart(qty, price) {
+    const countElem = document.getElementById('cart-count');
+    const totalElem = document.getElementById('cart-total');
+    if (countElem) countElem.textContent = qty;
+    if (totalElem) totalElem.textContent = price + ' €';
+}
