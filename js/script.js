@@ -182,3 +182,18 @@ function updateHeaderCart(qty, price) {
     if (countElem) countElem.textContent = qty;
     if (totalElem) totalElem.textContent = price + ' €';
 }
+
+function emptyCart() {
+    if(!confirm("¿Estás seguro de que quieres vaciar el carrito?")) return;
+
+    fetch('index.php?accio=api_carrito&action=empty', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}

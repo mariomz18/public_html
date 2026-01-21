@@ -60,4 +60,30 @@ function validateUser($email, $password) {
     pg_close($conn);
     return false;
 }
+
+function getUserById($id) {
+    $conn = connectaBD();
+    $sql = 'SELECT id, name, email, address, city, zip_code, image FROM "user" WHERE id = $1';
+    $result = pg_query_params($conn, $sql, [$id]);
+    $user = pg_fetch_assoc($result);
+    pg_close($conn);
+    return $user;
+}
+
+function updateUser($id, $name, $address, $city, $zip_code, $imageName = null) {
+    $conn = connectaBD();
+    
+    if ($imageName) {
+        $sql = 'UPDATE "user" SET name=$1, address=$2, city=$3, zip_code=$4, image=$5 WHERE id=$6';
+        $params = [$name, $address, $city, $zip_code, $imageName, $id];
+    } else {
+        $sql = 'UPDATE "user" SET name=$1, address=$2, city=$3, zip_code=$4 WHERE id=$5';
+        $params = [$name, $address, $city, $zip_code, $id];
+    }
+    
+    $result = pg_query_params($conn, $sql, $params);
+    pg_close($conn);
+    return $result;
+}
+
 ?>

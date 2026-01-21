@@ -30,15 +30,21 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button onclick="emptyCart()" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                🗑️ Vaciar Carrito
+            </button>
+        </div>
 
         <div style="text-align:right; margin-top:20px; font-size:1.5em;">
             Total: <strong><?= number_format($totalGeneral, 2) ?> €</strong>
         </div>
 
         <div style="text-align:right; margin-top:20px;">
-            <button class="btn-primary" style="background-color: green;" onclick="alert('Funcionalidad de compra no implementada aún.')">
+            <a href="index.php?accio=tramitar-pedido" class="btn-primary" style="background-color: green; text-decoration:none;">
                 Tramitar Pedido
-            </button>
+            </a>
         </div>
     <?php endif; ?>
 </div>
